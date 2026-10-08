@@ -30,9 +30,10 @@ jobs:
         with:
           name: QuizLab-Windows-Setup
           path: |
-            dist/*.exe
-            dist/*.blockmap
-            dist/latest.yml
+            path: |
+              QuizLab-Windows-Installer/dist/*.exe
+              QuizLab-Windows-Installer/dist/*.blockmap
+              QuizLab-Windows-Installer/dist/latest.yml
       - name: Publier une version et son flux de mises à jour
         if: startsWith(github.ref, 'refs/tags/v')
         env:
