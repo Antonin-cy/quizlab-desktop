@@ -1,0 +1,37 @@
+name: Installer Windows QuizLab
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: write
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Installer les dépendances
+        run: npm install
+      - name: Vérifier JavaScript
+        run: |
+          node --check main.js
+          node --check preload.js
+      - name: Construire l'installateur Windows
+        run: npm run build:windows
+      - name: Rendre l'installateur téléchargeable
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuizLab-Windows-Setup
+          path: |
+            dist/*.exe
+            dist/*.blockmap
+            dist/latest.yml
+      - name: Publier une version et son flux de mises à jour
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run release:windows
