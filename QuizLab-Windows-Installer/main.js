@@ -18,7 +18,9 @@ function writeDB(data){
  fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(tmp,json,{mode:0o600});fs.renameSync(tmp,dest);
  return true;
 }
-function configured(){return !String(require('./package.json').build.publish[0].owner).startsWith('CHANGE_ME');}
+function configured() {
+  return true;
+}
 function checkUpdates(){
  if(!app.isPackaged){setStatus('development','Vérification disponible uniquement dans la version installée');return;}
  if(!configured()){setStatus('unconfigured','Configure le dépôt GitHub des mises à jour avant de publier');return;}
