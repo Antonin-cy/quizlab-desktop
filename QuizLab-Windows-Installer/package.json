@@ -1,0 +1,61 @@
+{
+  "name": "quizlab-desktop",
+  "version": "1.1.0",
+  "private": true,
+  "description": "QuizLab Windows, quiz locaux et liens de partage avec mises à jour automatiques",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:windows": "electron-builder --win nsis --publish never",
+    "release:windows": "electron-builder --win nsis --publish always"
+  },
+  "devDependencies": {
+    "electron": "^35.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "fr.quizlab.desktop",
+    "productName": "QuizLab",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "app/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/quizlab.ico",
+      "artifactName": "QuizLab-Setup-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "QuizLab",
+      "perMachine": false
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Antonin-cy",
+        "repo": "quizlab-desktop"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.2"
+  }
+}
